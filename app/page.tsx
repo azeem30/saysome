@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
-import { ArrowRight, MessageSquare, ThumbsDown, ThumbsUp } from "lucide-react"
+import { ArrowRight, MessageSquare, ThumbsDown, ThumbsUp, Check, Wallet, PlusCircle, Wifi, Zap, Link2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import saysome from "@/assets/saysome.svg"
@@ -119,6 +119,107 @@ export default function Home() {
               <ThumbsDown className="h-10 w-10 text-purple-500" />
               <h3 className="text-xl font-bold">Own Your Data</h3>
               <p className="text-gray-500 dark:text-gray-400">Your content belongs to you, not to a corporation.</p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* New "How to use saysome?" section */}
+      <motion.section
+        className="py-12 md:py-24"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+      >
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-green-500 via-yellow-500 to-purple-500">
+                How to use saysome?
+              </h2>
+              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                Get started in just a few simple steps
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto grid max-w-4xl items-start gap-8 py-12 lg:grid-cols-1">
+            <motion.div 
+              className="grid gap-6 p-6 rounded-xl bg-gradient-to-br from-green-50 to-purple-50 dark:from-green-950/20 dark:to-purple-950/20"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50">
+                    <Wallet className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <h3 className="text-xl font-bold">Step 1: Add MetaMask extension to your browser</h3>
+                </div>
+                <p className="ml-14 text-gray-500 dark:text-gray-400">
+                  Install the MetaMask wallet extension from the Chrome Web Store or Firefox Add-ons.
+                </p>
+              </div>
+              
+              <div className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/50">
+                    <PlusCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                  </div>
+                  <h3 className="text-xl font-bold">Step 2: Create a wallet on MetaMask</h3>
+                </div>
+                <p className="ml-14 text-gray-500 dark:text-gray-400">
+                  Follow the setup process to create a new Ethereum wallet. Remember to securely store your seed phrase.
+                </p>
+              </div>
+              
+              <div className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/50">
+                    <Wifi className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <h3 className="text-xl font-bold">Step 3: Change the network to Sepolia Test Network</h3>
+                </div>
+                <p className="ml-14 text-gray-500 dark:text-gray-400">
+                  In MetaMask, switch from Ethereum Mainnet to the Sepolia Test Network in the network dropdown.
+                </p>
+              </div>
+              
+              <div className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50">
+                    <Zap className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <h3 className="text-xl font-bold">Step 4: Add Test Ethers using Sepolia Faucet</h3>
+                </div>
+                <p className="ml-14 text-gray-500 dark:text-gray-400">
+                  Use a Sepolia faucet to get test ETH for transactions. You'll need this to post on the blockchain.
+                </p>
+              </div>
+              
+              <div className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/50">
+                    <Link2 className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                  </div>
+                  <h3 className="text-xl font-bold">Step 5: Connect your Wallet to saysome</h3>
+                </div>
+                <p className="ml-14 text-gray-500 dark:text-gray-400">
+                  Click the "Connect Wallet" button on saysome and approve the connection in MetaMask.
+                </p>
+              </div>
+              
+              <div className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/50">
+                    <MessageSquare className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <h3 className="text-xl font-bold">Step 6: Start saying!</h3>
+                </div>
+                <p className="ml-14 text-gray-500 dark:text-gray-400">
+                  You're all set! Post your thoughts to the blockchain and interact with others.
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
