@@ -46,7 +46,7 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center gap-4">
-          <Link href="/tweets">
+          <Link href="/says">
             <Button variant="ghost">Says</Button>
           </Link>
 

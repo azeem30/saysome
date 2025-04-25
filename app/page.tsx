@@ -43,7 +43,7 @@ export default function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.7 }}
               >
-                <Link href="/tweets">
+                <Link href="/says">
                   <Button className="bg-gradient-to-r from-green-500 to-yellow-500 hover:from-green-600 hover:to-yellow-600">
                     Say and Slay !
                     <ArrowRight className="ml-2 h-4 w-4" />
