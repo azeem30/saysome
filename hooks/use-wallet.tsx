@@ -1,10 +1,16 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, createContext, useContext } from "react"
 import { ethers } from "ethers"
 import { useToast } from "@/hooks/use-toast"
+
+// Extend the Window interface to include the ethereum property
+declare global {
+  interface Window {
+    ethereum?: any
+  }
+}
 
 interface WalletContextType {
   address: string | null
@@ -55,11 +61,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         if (accounts.length > 0) {
           setAddress(accounts[0])
           setIsConnected(true)
-
-          if (window.ethereum) {
-            const ethersProvider = new ethers.BrowserProvider(window.ethereum)
-            setProvider(ethersProvider)
-          }
+          const ethersProvider = new ethers.BrowserProvider(window.ethereum)
+          setProvider(ethersProvider)
         } else {
           setAddress(null)
           setIsConnected(false)
@@ -82,20 +85,42 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const connect = async () => {
-    if (typeof window !== "undefined" && window.ethereum) {
+    // Check if we're on mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    
+    if (isMobile) {
+      // Handle mobile connection
       try {
-        const ethersProvider = new ethers.BrowserProvider(window.ethereum)
-        const accounts = await ethersProvider.send("eth_requestAccounts", [])
-
-        if (accounts.length > 0) {
-          setAddress(accounts[0])
-          setIsConnected(true)
-          setProvider(ethersProvider)
-
-          toast({
-            title: "Wallet Connected",
-            description: "Your wallet has been connected successfully!",
-          })
+        // Check if MetaMask is installed (mobile browsers don't show extensions)
+        if (window.ethereum && window.ethereum.isMetaMask) {
+          // Regular connection flow for MetaMask mobile browser
+          const ethersProvider = new ethers.BrowserProvider(window.ethereum)
+          const accounts = await ethersProvider.send("eth_requestAccounts", [])
+          
+          if (accounts.length > 0) {
+            setAddress(accounts[0])
+            setIsConnected(true)
+            setProvider(ethersProvider)
+            toast({
+              title: "Wallet Connected",
+              description: "Your wallet has been connected successfully!",
+            })
+          }
+        } else {
+          // Deep link to MetaMask app
+          const metamaskAppDeepLink = "https://metamask.app.link/dapp/" + window.location.host
+          window.location.href = metamaskAppDeepLink
+          
+          // Fallback to WalletConnect or regular website if the app isn't installed
+          setTimeout(() => {
+            if (!window.ethereum) {
+              toast({
+                title: "MetaMask Not Found",
+                description: "Please install MetaMask to use this application.",
+                variant: "destructive",
+              })
+            }
+          }, 2000)
         }
       } catch (error) {
         console.error("Failed to connect wallet:", error)
@@ -106,11 +131,37 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         })
       }
     } else {
-      toast({
-        title: "MetaMask Not Found",
-        description: "Please install MetaMask to use this application.",
-        variant: "destructive",
-      })
+      // Desktop browser flow
+      if (typeof window !== "undefined" && window.ethereum) {
+        try {
+          const ethersProvider = new ethers.BrowserProvider(window.ethereum)
+          const accounts = await ethersProvider.send("eth_requestAccounts", [])
+
+          if (accounts.length > 0) {
+            setAddress(accounts[0])
+            setIsConnected(true)
+            setProvider(ethersProvider)
+
+            toast({
+              title: "Wallet Connected",
+              description: "Your wallet has been connected successfully!",
+            })
+          }
+        } catch (error) {
+          console.error("Failed to connect wallet:", error)
+          toast({
+            title: "Connection Failed",
+            description: "Failed to connect to your wallet. Please try again.",
+            variant: "destructive",
+          })
+        }
+      } else {
+        toast({
+          title: "MetaMask Not Found",
+          description: "Please install MetaMask to use this application.",
+          variant: "destructive",
+        })
+      }
     }
   }
 
